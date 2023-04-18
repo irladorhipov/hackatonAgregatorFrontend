@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar">
+    <nav class="navbar bg-blue-600 mb-6">
         <h3>Open-prof</h3>
     </nav>
 

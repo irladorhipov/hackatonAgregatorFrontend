@@ -1,7 +1,10 @@
 <template>
   <navbarapp />
   <div class="container">
-    <vacanciesSearch :data="data" />
+   <VacanciesSalaryFilter :inputData="filtredData" @filter-arr="filterArrSalary" />
+
+    <vacanciesSearch :inputData="filtredData" />
+    
   </div>
 </template>
 
@@ -10,22 +13,29 @@ import axios from 'axios'
 
 import navbarapp from '@/components/UI/NavbarApp.vue'
 import vacanciesSearch from '@/components/UI/VacanciesSearch.vue'
+import VacanciesSalaryFilter from '@/components/UI/VacanciesSalaryFilter.vue'
 export default {
-    components: {navbarapp, vacanciesSearch},
+    components: {navbarapp, vacanciesSearch, VacanciesSalaryFilter},
     data() {
         return {
-            data: [],
+          inputData: [],
+          filtredData: []
         }
     },
     created() {
         this.vacancies()
       },
       methods: {
+        filterArrSalary(val) {
+            return this.filtredData = this.inputData.filter(function (item) {
+                return item.vacancy.salary_min > val
+            })
+        },
           vacancies() {
               axios.post('https://landing.sparky-application.ru/api/vacancies-paginate')
               .then((res) => {
-                this.data = res.data.data
-                  console.log(res)
+                this.inputData = res.data.data
+                this.filtredData = res.data.data
               })
               .catch((err) => {
                   console.log(err)
