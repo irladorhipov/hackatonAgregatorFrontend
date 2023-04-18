@@ -1,52 +1,67 @@
 <template>
-  <navbarapp />
-  <div class="container">
-   <VacanciesSalaryFilter :inputData="filtredData" @filter-arr="filterArrSalary" />
+  <TheNavbar />
 
-    <vacanciesSearch :inputData="filtredData" />
-    
-  </div>
+  <TheIntro />
+
+  <main>
+    <div class="container">
+      <AppVacancyFilters :inputData="filtredData" @filter="filterArrSalary" />
+      <AppVacancyList :inputData="filtredData" />
+    </div>
+  </main>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
+import TheNavbar from "./components/TheNavbar.vue";
+import TheIntro from "./components/TheIntro.vue";
+import AppVacancyList from "@/components/vacancy/AppVacancyList.vue";
+import AppVacancyFilters from "@/components/vacancy/AppVacancyFilters.vue";
 
-import navbarapp from '@/components/UI/NavbarApp.vue'
-import vacanciesSearch from '@/components/UI/VacanciesSearch.vue'
-import VacanciesSalaryFilter from '@/components/UI/VacanciesSalaryFilter.vue'
 export default {
-    components: {navbarapp, vacanciesSearch, VacanciesSalaryFilter},
-    data() {
-        return {
-          inputData: [],
-          filtredData: []
-        }
+  components: { TheNavbar, TheIntro, AppVacancyList, AppVacancyFilters },
+  data() {
+    return {
+      inputData: [],
+      filtredData: [],
+    };
+  },
+  created() {
+    this.fetchVacancies();
+  },
+  methods: {
+    filterArrSalary(val) {
+      return (this.filtredData = this.inputData.filter(function (item) {
+        return item.vacancy.salary_min > val;
+      }));
     },
-    created() {
-        this.vacancies()
-      },
-      methods: {
-        filterArrSalary(val) {
-            return this.filtredData = this.inputData.filter(function (item) {
-                return item.vacancy.salary_min > val
-            })
-        },
-          vacancies() {
-              axios.post('https://landing.sparky-application.ru/api/vacancies-paginate')
-              .then((res) => {
-                this.inputData = res.data.data
-                this.filtredData = res.data.data
-              })
-              .catch((err) => {
-                  console.log(err)
-              })
-          }
-      }
-}
+    fetchVacancies() {
+      axios
+        .post("https://landing.sparky-application.ru/api/vacancies-paginate")
+        .then((res) => {
+          this.inputData = res.data.data;
+          this.filtredData = res.data.data;
+        })
+        .catch((err) => {
+          console.log('Failed to get vacancies', err);
+        });
+    },
+  },
+};
 </script>
 
-
 <style>
+:root {
+  --color-primary: #2563eb;
+  --color-primary-hover: #3f7af8;
+  --color-primary-pastel: #c5d5f9;
+  --color-primary-text: white;
+
+  --color-border: #d1d5db;
+
+  --transition: .3s ease-in-out;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -54,51 +69,31 @@ export default {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', 'Onest', 'SF Pro', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.navbar {
-  background-color: #6200ee;
-  color: #fff;
-  padding: 25px;
-}
-
-.input-search {
-  margin-top: 30px;
-  outline: none;
-  border: none;
-  width: 100%;
-  border-radius: 4px;
-  padding: 20px;
-  font-size: 20px;
-  -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-  -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
-}
-
 .container {
-  max-width: 1200px;
+  max-width: 1200px !important;
   margin: 0 auto;
 }
 
-.vacancy {
-  margin-top: 30px;
-  border-radius: 4px;
-  border: 3px solid #6200ee;
-  padding: 30px;
+main .container {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
 }
-
-.text-content {
-  margin: 30px 0;
-  padding: 30px;
-  border-radius: 4px;
-  border: 2px solid #000;
+main :deep(aside) {
+  width: 400px;
+  min-width: 400px;
 }
-
-.demo-grid.max-width {
-  max-width: 1280px;
+main :deep(section) {
+  width: 100%;
 }
-
+@media screen and (min-width: 968px) {
+  main .container {
+    flex-direction: row;
+  }
+}
 </style>
