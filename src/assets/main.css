@@ -4,9 +4,9 @@
 @tailwind utilities;
 
 .output-color {
-    background: linear-gradient(var(--angle), var(--color-1), var(--color-2));
-    border-radius: 0.25rem;
-    height: 150px;
+  background: linear-gradient(var(--angle), var(--color-1), var(--color-2));
+  border-radius: 0.25rem;
+  height: 150px;
 
-    width: 100%;
-  }
+  width: 100%;
+}
