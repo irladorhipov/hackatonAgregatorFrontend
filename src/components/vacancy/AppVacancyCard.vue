@@ -148,7 +148,9 @@ export default {
 
 .card-vacancy__container {
   width: 100%;
-  height: 50px;
+  min-height: 50px;
+
+  padding-right: 40px;
 
   margin-bottom: 12px;
 
@@ -157,6 +159,7 @@ export default {
 }
 .card-vacancy__preview {
   width: 50px;
+  min-width: 50px;
   height: 50px;
 
   display: flex;

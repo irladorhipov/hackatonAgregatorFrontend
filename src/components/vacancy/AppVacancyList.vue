@@ -53,12 +53,16 @@ export default {
 <style scoped>
 .section-vacancies {
   width: 100%;
+}
 
-  padding: 0 20px;
+@media screen and (min-width: 968px) {
+  .section-vacancies {
+    padding-left: 20px;
+  }
 }
 .section-vacancies__search {
   width: 100%;
-
+  
   margin-bottom: 8px;
 
   padding: 8px 16px;

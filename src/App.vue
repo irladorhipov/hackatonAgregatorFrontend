@@ -75,12 +75,13 @@ export default {
 }
 
 .container {
+  padding: 0 16px;
   max-width: 1200px !important;
   margin: 0 auto;
 }
 
 main .container {
-  padding: 20px 0;
+  padding: 20px 16px;
   display: flex;
   flex-direction: column;
 }
