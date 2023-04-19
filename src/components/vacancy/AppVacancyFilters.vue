@@ -65,15 +65,21 @@ export default {
 <style scoped>
 .filters {
   width: 100%;
-  min-width: 300px;
-  max-width: 300px;
 
   padding: 20px;
+
+  margin-bottom: 12px;
 
   height: max-content;
 
   border: 2px solid var(--color-border);
   border-radius: 12px;
+}
+@media screen and (min-width: 968px) {
+  .filters {
+    min-width: 300px;
+    max-width: 300px;
+  }
 }
 .filters__title {
   margin-bottom: 12px;
