@@ -37,7 +37,7 @@ export default {
     },
     fetchVacancies() {
       axios
-        .post("https://landing.sparky-application.ru/api/vacancies-paginate")
+        .post("https://openprof.alras63.ru/api/paginate")
         .then((res) => {
           this.inputData = res.data.data;
           this.filtredData = res.data.data;
