@@ -9,6 +9,13 @@
       <AppVacancyList :inputData="filtredData" />
     </div>
   </main>
+  <ui-pagination
+  v-model="page"
+  :total="total"
+  :pageSize="pageSize"
+  show-total
+  position="center"
+></ui-pagination>
 </template>
 
 <script>
@@ -24,11 +31,19 @@ export default {
     return {
       inputData: [],
       filtredData: [],
+      page: 1,
+      total: null,
+      pageSize: 50,
     };
   },
   created() {
     this.fetchVacancies();
   },
+  watch: {
+   page: function() {
+    this.fetchVacancies()
+   }
+  }, 
   methods: {
     filterArrSalary(val) {
       return (this.filtredData = this.inputData.filter(function (item) {
@@ -37,8 +52,13 @@ export default {
     },
     fetchVacancies() {
       axios
-        .post("https://landing.sparky-application.ru/api/vacancies-paginate")
+        .post("https://landing.sparky-application.ru/api/vacancies-paginate", {
+          page: this.page
+        })
         .then((res) => {
+          console.log(res)
+          // this.page = res.data.current_page;
+          this.total = res.data.total;
           this.inputData = res.data.data;
           this.filtredData = res.data.data;
         })
@@ -85,16 +105,18 @@ main .container {
   display: flex;
   flex-direction: column;
 }
+
 main :deep(aside) {
   width: 400px;
   min-width: 400px;
 }
+
 main :deep(section) {
   width: 100%;
 }
+
 @media screen and (min-width: 968px) {
   main .container {
     flex-direction: row;
   }
-}
-</style>
+}</style>
